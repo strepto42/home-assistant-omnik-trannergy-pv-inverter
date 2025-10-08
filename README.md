@@ -21,8 +21,7 @@ TL;DR click here: [![Open your Home Assistant instance and open a repository ins
 
 #### Search or browse the store
 
-🚀 Coming soon!
-I've submitted a [pull request](https://github.com/hacs/default/pull/2627) to have this integration published to HACS, until it's merged please add it as a custom repository.
+🚀 This integration is published in HACS, so you should be able to find it there.
 
 #### Custom repository
 
@@ -149,10 +148,10 @@ Big thanks to:
 ## Similar Projects
 
 If this custom component is not working for you, please try these similar projects:
-
 * [KoenZomers/OmnikApi](https://github.com/KoenZomers/OmnikApi): Omnik Solar API in C#
 * [Woutrrr/Omnik-Data-Logger](https://github.com/Woutrrr/Omnik-Data-Logger): Data logger for Omnik Solar Inverters
 * [robbinjanssen/home-assistant-omnik-inverter](https://github.com/robbinjanssen/home-assistant-omnik-inverter): Omnik Inverter Integration for Home Assistant
 * [KodeCR/home-assistant-solarman](https://github.com/KodeCR/home-assistant-solarman): Home Assistant custom component for SolarMAN (IGEN Tech) solar inverter logger
 * [XtheOne/Inverter-Data-Logger](https://github.com/XtheOne/Inverter-Data-Logger):Data logger for Omnik/Hosola and other Solarman Wi-Fi kit powered Solar Inverters
 * [davidrapan/ha-solarman](https://github.com/davidrapan/ha-solarman): ⚡ Solarman Stick Logger integration for 🏡 Home Assistant
+* [StephanJoubert/home_assistant_solarman](https://github.com/StephanJoubert/home_assistant_solarman): Home Assistant component for Solarman collectors used with a variety of inverters.
