@@ -1,157 +1,179 @@
-# Home Assistant Omnik/Trannergy PV Inverter custom component
+# Home Assistant Trannergy PV Inverter Custom Component
 
-The Omnik/Trannergy PV Inverter custom component uses local polling to retrieve data from an Omnik or Trannergy PV inverter.
-The values will be presented as sensors (or attributes of sensors) in [Home Assistant](https://home-assistant.io/).
+[![hacs_badge](https://img.shields.io/badge/HACS-Default-41BDF5.svg)](https://github.com/hacs/integration)
+
+The Trannergy PV Inverter custom component uses local polling to retrieve data from a Trannergy PV inverter.
+The values will be presented as sensors in [Home Assistant](https://home-assistant.io/).
 
 > ❤️ This integration is a continuation of [hultenvp/home_assistant_omnik_solar](https://github.com/hultenvp/home_assistant_omnik_solar), which is now archived.
 
-![Home Assistant dashboard showing Omnik/Trannergy PV Inverter custom compnent](https://raw.githubusercontent.com/josh-sanders/home-assistant-omnik-trannergy-pv-inverter/master/images/omnik_sensor_ui.png)
+![Home Assistant dashboard showing Trannergy PV Inverter custom component](https://raw.githubusercontent.com/josh-sanders/home-assistant-omnik-trannergy-pv-inverter/master/images/omnik_sensor_ui.png)
 
-## Supported inverters
+## Features
 
-I have tested this integration with a Trannergy SGN5400TL that has a wifi kit with serial number starting with 645xxxxxx.
+- **Config Flow Setup**: Easy configuration through the Home Assistant UI (no YAML required!)
+- **Async Communication**: Fully async TCP communication for better performance
+- **Configurable Polling**: Set custom scan intervals (default 30 seconds)
+- **Offline Handling**: Gracefully handles inverter going offline at night
+- **Multiple Sensors**: Support for all inverter data points including DC input, AC output, power, energy, and more
+- **Options Flow**: Change scan interval and enable/disable sensors without reconfiguring
 
-Please comment on your experience with this integration in the [github discussion](https://github.com/josh-sanders/home-assistant-omnik-trannergy-pv-inverter/discussions/3).
+## Supported Inverters
+
+This integration has been tested with a Trannergy SGN5400TL that has a wifi kit with serial number starting with 645xxxxxx.
+
+Please comment on your experience with this integration in the [GitHub discussion](https://github.com/josh-sanders/home-assistant-omnik-trannergy-pv-inverter/discussions/3).
 
 ## Installation
 
-TL;DR click here: [![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=josh-sanders&repository=home-assistant-omnik-trannergy-pv-inverter&category=integration)
+### HACS Installation (Recommended)
 
-### HACS installation
+Click here to add the repository: [![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=josh-sanders&repository=home-assistant-omnik-trannergy-pv-inverter&category=integration)
 
-#### Search or browse the store
+Or manually:
 
-🚀 This integration is published in HACS, so you should be able to find it there.
-
-#### Custom repository
-
-1. Open the HACS dashboard by clicking on HACS in the lefthand menu of Home Assistant
+1. Open the HACS dashboard by clicking on HACS in the left-hand menu
 2. Click on the 3 dots in the top right corner
 3. Select "Custom repositories"
-4. Add the URL to this repository: <https://github.com/josh-sanders/home-assistant-omnik-trannergy-pv-inverter/>
-5. Select "Integration" 
+4. Add the URL: `https://github.com/josh-sanders/home-assistant-omnik-trannergy-pv-inverter/`
+5. Select "Integration"
 6. Click the "ADD" button
+7. Search for "Trannergy" and install
 
-#### About HACS
+### Manual Installation
 
-The [Home Assistant Community Store (HACS)](https://hacs.xyz/) is a custom integration that provides a UI to manage custom elements in Home Assistant. HACS is a custom component and is not installed by default in your Home Assistant installation. By using HACS you will also make sure that any new versions are installed by default and as simple as the installation itself.
+1. Create a directory called `trannergy` in the `<config directory>/custom_components/` directory
+2. Copy all files from [`/custom_components/trannergy/`](https://github.com/josh-sanders/home-assistant-omnik-trannergy-pv-inverter/tree/master/custom_components/trannergy) into the new directory
 
-### Manual installation
+Your `custom_components/` directory should look like this:
 
-Create a directory called `omnik` in the `<config directory>/custom_components/` directory on your Home Assistant instance.
-Install this component by copying the files in [`/custom_components/omnik/`]:
-
-* [`__init__.py`](https://raw.githubusercontent.com/josh-sanders/home-assistant-omnik-trannergy-pv-inverter/master/custom_components/omnik/__init__.py),
-* [`manifest.json`](https://raw.githubusercontent.com/josh-sanders/home-assistant-omnik-trannergy-pv-inverter/master/custom_components/omnik/manifest.json), and
-* [`sensor.py`](https://raw.githubusercontent.com/josh-sanders/home-assistant-omnik-trannergy-pv-inverter/master/custom_components/omnik/sensor.py)
-
-from this repo into the new `<config directory>/custom_components/omnik/` directory you just created.
-
-This is how your `custom_components/` directory should be:
-
-``` bash
-custom_components
-├── omnik
-│   ├── __init__.py
-│   ├── manifest.json
-│   └── sensor.py
+```
+custom_components/
+└── trannergy/
+    ├── __init__.py
+    ├── api.py
+    ├── config_flow.py
+    ├── const.py
+    ├── coordinator.py
+    ├── manifest.json
+    ├── sensor.py
+    ├── strings.json
+    └── translations/
+        └── en.json
 ```
 
 ## Configuration
 
-After you've completed installation, you need to edit Home Assistants' [`configuration.yaml`](https://www.home-assistant.io/docs/configuration/) file. This file contains integrations to be loaded along with their configurations. Throughout the documentation, you will find snippets that you can add to your configuration file to enable specific functionality.
+### Adding the Integration
 
-The following example has everything you need to get started, just change the values for your inverter's serial number and host IPv4 address:
+1. Go to **Settings** → **Devices & Services**
+2. Click **+ Add Integration**
+3. Search for "Trannergy PV Inverter"
+4. Enter the required configuration:
+   - **Name**: A friendly name for your inverter (e.g., "Solar Inverter")
+   - **Inverter Serial Number**: The serial number of your WiFi/LAN module (e.g., 1612345603)
+   - **Inverter IP Address**: The local IP address of your inverter (e.g., 192.168.1.123)
+   - **Inverter Port**: TCP port (default: 8899)
+   - **Scan Interval**: How often to poll the inverter in seconds (default: 30)
 
-``` YAML
-sensor:
-  - platform: omnik
-    inverter_serial: <serial number wifi/lan module> (example 1612345603)
-    inverter_host: 192.168.1.123
-    inverter_port: 8899
-    name: MyOmnik
-    scan_interval: 60
-    sensors:
-      actualpower: [energytotal, energytoday]
-      energytoday:
-      energytotal:
-      hourstotal:
-      invertersn:
-      temperature:
-      dcinputvoltage1:
-      dcinputcurrent1:
-      dcinputvoltage2:
-      dcinputcurrent2:
-      acoutputvoltage1:
-      acoutputcurrent1:
-      acoutputfrequency1:
-      acoutputpower1:
+5. Click **Submit**
+
+> **Note**: The inverter may be offline at night when solar production stops. This is normal behavior and the integration handles it gracefully.
+
+### Configuring Options
+
+After adding the integration, you can configure options:
+
+1. Go to **Settings** → **Devices & Services**
+2. Find your Trannergy integration and click **Configure**
+3. Adjust the scan interval and enable/disable individual sensors
+
+## Available Sensors
+
+| Sensor | Description | Unit |
+|--------|-------------|------|
+| `status` | Inverter online/offline status | - |
+| `actualpower` | Current power output | W |
+| `energytoday` | Energy generated today | kWh |
+| `energytotal` | Total energy generated | kWh |
+| `hourstotal` | Total operating hours | h |
+| `invertersn` | Inverter serial number | - |
+| `temperature` | Inverter temperature | °C |
+| `dcinputvoltage1-3` | DC input voltage (channels 1-3) | V |
+| `dcinputcurrent1-3` | DC input current (channels 1-3) | A |
+| `acoutputvoltage1-3` | AC output voltage (channels 1-3) | V |
+| `acoutputcurrent1-3` | AC output current (channels 1-3) | A |
+| `acoutputfrequency1-3` | AC output frequency (channels 1-3) | Hz |
+| `acoutputpower1-3` | AC output power (channels 1-3) | W |
+
+## Troubleshooting
+
+### Inverter Shows Offline
+
+- **At night**: This is normal. The inverter powers down when there's no solar production.
+- **During the day**: Check that:
+  - The IP address is correct
+  - The inverter is connected to your network
+  - Port 8899 is not blocked by a firewall
+  - The serial number matches your WiFi/LAN module
+
+### Connection Timeouts
+
+The integration uses a 10-second timeout for connections. If your network is slow, ensure the inverter has a stable connection.
+
+### Debug Logging
+
+To enable debug logging, add the following to your `configuration.yaml`:
+
+```yaml
+logger:
+  default: info
+  logs:
+    custom_components.trannergy: debug
 ```
 
-### Configuration variables
+## File Structure
 
-* **`inverter_serial`** (Required): The device serial number of the PV inverter's wifi/lan module.
-* **`inverter_host`** (Required): The IP address of the PV inverter.
-* **`inverter_port`** (Optional): The port nummber of the PV inverter. Default port 8899 is used.
-* **`name`** (Optional): Let you overwrite the name of the device in the frontend. *Default value: Omnik*
-* **`scan_interval`** (Optional): The inverter will be polled at an interval specified in seconds.
-* **`sensors`** (Required): List of values which will be presented as sensors:
-  * *`actualpower`*: Sensor with the actual power value.
-  * *`energytoday`*: Sensor with the total energy value for the current day.
-  * *`energytotal`*: Sensor with the total energy value.
-  * *`hourstotal`*: Sensor with the total hours value.
-  * *`invertersn`*: Sensor with the serial number value.
-  * *`temperature`*: Sensor with the temperature value for the inverter.
-  * *`dcinputvoltage`*: Sensor with the actual DC input voltage value.
-  * *`dcinputcurrent`*: Sensor with the actual DC input current value.
-  * *`acoutputvoltage`*: Sensor with the actual AC output voltage value.
-  * *`acoutputcurrent`*: Sensor with the actual AC output current value.
-  * *`acoutputfrequency`*: Sensor with the actual AC output frequenty value.
-  * *`acoutputpower`*: Sensor with the actual AC output power value.
-
-The `dcinput` and `acoutput` sensors can be configured for up to 3 channels, for example:
-
-``` YAML
-      dcinputvoltage1:   
-      dcinputcurrent1:   
-      dcinputvoltage2:   
-      dcinputcurrent2:   
-      dcinputvoltage3:   
-      dcinputcurrent3:   
-      acoutputvoltage1:  
-      acoutputcurrent1:  
-      acoutputfrequency1:
-      acoutputpower1:    
-      acoutputvoltage2:  
-      acoutputcurrent2:  
-      acoutputfrequency2:
-      acoutputpower2:    
-      acoutputvoltage3:  
-      acoutputcurrent3:  
-      acoutputfrequency3:
-      acoutputpower3:    
 ```
-
-You can create composite sensors, where the subsensors will be shown as attributes of the main sensor, for example:
-
-``` YAML
-      actualpower: [energytotal, energytoday]
+custom_components/trannergy/
+├── __init__.py       # Integration setup and config entry handling
+├── api.py            # Async API client for inverter communication
+├── config_flow.py    # Config flow and options flow handlers
+├── const.py          # Constants and sensor definitions
+├── coordinator.py    # Data update coordinator
+├── manifest.json     # Integration manifest
+├── sensor.py         # Sensor entity definitions
+├── strings.json      # Localization strings
+└── translations/
+    └── en.json       # English translations
 ```
 
 ## Thanks 🌞
 
 Big thanks to:
 
-* [@heinoldenhuis](https://github.com/heinoldenhuis) for the original integration.
-* [@hultenvp](https://github.com/hultenvp) for previously maintaining this HACS custom component.
+* [@heinoldenhuis](https://github.com/heinoldenhuis) for the original integration
+* [@hultenvp](https://github.com/hultenvp) for previously maintaining this HACS custom component
 
 ## Similar Projects
 
 If this custom component is not working for you, please try these similar projects:
-* [KoenZomers/OmnikApi](https://github.com/KoenZomers/OmnikApi): Omnik Solar API in C#
-* [Woutrrr/Omnik-Data-Logger](https://github.com/Woutrrr/Omnik-Data-Logger): Data logger for Omnik Solar Inverters
-* [robbinjanssen/home-assistant-omnik-inverter](https://github.com/robbinjanssen/home-assistant-omnik-inverter): Omnik Inverter Integration for Home Assistant
-* [KodeCR/home-assistant-solarman](https://github.com/KodeCR/home-assistant-solarman): Home Assistant custom component for SolarMAN (IGEN Tech) solar inverter logger
-* [XtheOne/Inverter-Data-Logger](https://github.com/XtheOne/Inverter-Data-Logger):Data logger for Omnik/Hosola and other Solarman Wi-Fi kit powered Solar Inverters
-* [davidrapan/ha-solarman](https://github.com/davidrapan/ha-solarman): ⚡ Solarman Stick Logger integration for 🏡 Home Assistant
-* [StephanJoubert/home_assistant_solarman](https://github.com/StephanJoubert/home_assistant_solarman): Home Assistant component for Solarman collectors used with a variety of inverters.
+
+* [davidrapan/ha-solarman](https://github.com/davidrapan/ha-solarman): Solarman Stick Logger integration for Home Assistant
+* [StephanJoubert/home_assistant_solarman](https://github.com/StephanJoubert/home_assistant_solarman): Home Assistant component for Solarman collectors
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Changelog
+
+### v1.0.0
+
+- **Breaking Change**: Migrated from YAML configuration to Config Flow (UI-based setup)
+- Renamed integration from "Omnik" to "Trannergy"
+- Fully async API client for improved performance
+- Added DataUpdateCoordinator for efficient data updates
+- Added options flow to configure sensors and scan interval
+- Improved error handling for offline inverter scenarios
+- Added proper device info and unique IDs for all entities

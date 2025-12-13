@@ -1,0 +1,15 @@
+{
+  "domain": "trannergy",
+  "name": "Trannergy PV Inverter",
+  "codeowners": ["@strepto42"],
+  "config_flow": true,
+  "dependencies": [],
+  "documentation": "https://github.com/strepto42/home-assistant-omnik-trannergy-pv-inverter/blob/master/README.md",
+  "integration_type": "device",
+  "iot_class": "local_polling",
+  "issue_tracker": "https://github.com/strepto42/home-assistant-omnik-trannergy-pv-inverter/issues",
+  "loggers": ["custom_components.trannergy"],
+  "requirements": [],
+  "version": "1.0.0"
+}
+

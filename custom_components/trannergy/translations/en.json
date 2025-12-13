@@ -1,0 +1,68 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Configure Trannergy PV Inverter",
+        "description": "Set up your Trannergy PV inverter for local polling. The inverter may be offline at night, which is normal.",
+        "data": {
+          "name": "Name",
+          "inverter_serial": "Inverter Serial Number (WiFi/LAN module)",
+          "inverter_host": "Inverter IP Address",
+          "inverter_port": "Inverter Port",
+          "scan_interval": "Scan Interval (seconds)"
+        },
+        "data_description": {
+          "inverter_serial": "The serial number of the WiFi or LAN module (e.g., 1612345603)",
+          "inverter_host": "The IP address of your inverter on your local network",
+          "inverter_port": "TCP port for communication (default: 8899)",
+          "scan_interval": "How often to poll the inverter for new data"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Cannot connect to the inverter. The inverter may be offline (e.g., at night). Configuration will proceed.",
+      "invalid_serial": "Invalid serial number. Please enter a valid numeric serial number.",
+      "unknown": "An unexpected error occurred."
+    },
+    "abort": {
+      "already_configured": "This inverter is already configured."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Trannergy Options",
+        "description": "Configure polling interval and select which sensors to enable.",
+        "data": {
+          "scan_interval": "Scan Interval (seconds)",
+          "status": "Status",
+          "actualpower": "Actual Power",
+          "energytoday": "Energy Today",
+          "energytotal": "Energy Total",
+          "hourstotal": "Hours Total",
+          "invertersn": "Inverter Serial Number",
+          "temperature": "Temperature",
+          "dcinputvoltage1": "DC Input Voltage 1",
+          "dcinputcurrent1": "DC Input Current 1",
+          "dcinputvoltage2": "DC Input Voltage 2",
+          "dcinputcurrent2": "DC Input Current 2",
+          "dcinputvoltage3": "DC Input Voltage 3",
+          "dcinputcurrent3": "DC Input Current 3",
+          "acoutputvoltage1": "AC Output Voltage 1",
+          "acoutputcurrent1": "AC Output Current 1",
+          "acoutputfrequency1": "AC Output Frequency 1",
+          "acoutputpower1": "AC Output Power 1",
+          "acoutputvoltage2": "AC Output Voltage 2",
+          "acoutputcurrent2": "AC Output Current 2",
+          "acoutputfrequency2": "AC Output Frequency 2",
+          "acoutputpower2": "AC Output Power 2",
+          "acoutputvoltage3": "AC Output Voltage 3",
+          "acoutputcurrent3": "AC Output Current 3",
+          "acoutputfrequency3": "AC Output Frequency 3",
+          "acoutputpower3": "AC Output Power 3"
+        }
+      }
+    }
+  }
+}
+
