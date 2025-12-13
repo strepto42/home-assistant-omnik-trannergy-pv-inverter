@@ -29,7 +29,7 @@ from .const import (
     DEFAULT_SCAN_INTERVAL,
     DEFAULT_SENSORS,
     DOMAIN,
-    SENSOR_TYPES,
+    SENSOR_KEYS,
 )
 
 _LOGGER = logging.getLogger(__name__)
@@ -144,7 +144,7 @@ class TrannergyOptionsFlowHandler(config_entries.OptionsFlow):
         if user_input is not None:
             # Convert selected sensors to list
             selected_sensors = [
-                key for key, value in user_input.items() if key in SENSOR_TYPES and value
+                key for key, value in user_input.items() if key in SENSOR_KEYS and value
             ]
 
             # Get non-sensor options
@@ -175,7 +175,7 @@ class TrannergyOptionsFlowHandler(config_entries.OptionsFlow):
         }
 
         # Add checkbox for each sensor type
-        for sensor_key in SENSOR_TYPES:
+        for sensor_key in SENSOR_KEYS:
             schema_dict[
                 vol.Optional(sensor_key, default=sensor_key in current_sensors)
             ] = bool

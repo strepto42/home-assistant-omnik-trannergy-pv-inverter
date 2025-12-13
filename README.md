@@ -7,7 +7,7 @@ The values will be presented as sensors in [Home Assistant](https://home-assista
 
 > ❤️ This integration is a continuation of [hultenvp/home_assistant_omnik_solar](https://github.com/hultenvp/home_assistant_omnik_solar), which is now archived.
 
-![Home Assistant dashboard showing Trannergy PV Inverter custom component](https://raw.githubusercontent.com/josh-sanders/home-assistant-omnik-trannergy-pv-inverter/master/images/omnik_sensor_ui.png)
+![Home Assistant dashboard showing Trannergy PV Inverter custom component](https://raw.githubusercontent.com/strepto42/home-assistant-omnik-trannergy-pv-inverter/master/images/omnik_sensor_ui.png)
 
 ## Features
 
@@ -22,20 +22,20 @@ The values will be presented as sensors in [Home Assistant](https://home-assista
 
 This integration has been tested with a Trannergy SGN5400TL that has a wifi kit with serial number starting with 645xxxxxx.
 
-Please comment on your experience with this integration in the [GitHub discussion](https://github.com/josh-sanders/home-assistant-omnik-trannergy-pv-inverter/discussions/3).
+Please comment on your experience with this integration in the [GitHub discussion](https://github.com/strepto42/home-assistant-omnik-trannergy-pv-inverter/discussions).
 
 ## Installation
 
 ### HACS Installation (Recommended)
 
-Click here to add the repository: [![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=josh-sanders&repository=home-assistant-omnik-trannergy-pv-inverter&category=integration)
+Click here to add the repository: [![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=strepto42&repository=home-assistant-omnik-trannergy-pv-inverter&category=integration)
 
 Or manually:
 
 1. Open the HACS dashboard by clicking on HACS in the left-hand menu
 2. Click on the 3 dots in the top right corner
 3. Select "Custom repositories"
-4. Add the URL: `https://github.com/josh-sanders/home-assistant-omnik-trannergy-pv-inverter/`
+4. Add the URL: `https://github.com/strepto42/home-assistant-omnik-trannergy-pv-inverter/`
 5. Select "Integration"
 6. Click the "ADD" button
 7. Search for "Trannergy" and install
@@ -43,7 +43,7 @@ Or manually:
 ### Manual Installation
 
 1. Create a directory called `trannergy` in the `<config directory>/custom_components/` directory
-2. Copy all files from [`/custom_components/trannergy/`](https://github.com/josh-sanders/home-assistant-omnik-trannergy-pv-inverter/tree/master/custom_components/trannergy) into the new directory
+2. Copy all files from [`/custom_components/trannergy/`](https://github.com/strepto42/home-assistant-omnik-trannergy-pv-inverter/tree/master/custom_components/trannergy) into the new directory
 
 Your `custom_components/` directory should look like this:
 
