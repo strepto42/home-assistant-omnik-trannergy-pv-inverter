@@ -38,7 +38,7 @@ class TrannergyDataUpdateCoordinator(DataUpdateCoordinator[dict[str, Any]]):
             update_interval: Update interval in seconds.
         """
         self.api = api
-        self._update_interval = update_interval
+        self._update_interval_seconds = update_interval
         self._unsub_interval = None
 
         super().__init__(
@@ -86,7 +86,7 @@ class TrannergyDataUpdateCoordinator(DataUpdateCoordinator[dict[str, Any]]):
         self._unsub_interval = async_track_time_interval(
             self.hass,
             _async_refresh,
-            timedelta(seconds=self._update_interval),
+            timedelta(seconds=self._update_interval_seconds),
         )
 
     @callback
