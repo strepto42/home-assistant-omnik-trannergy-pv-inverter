@@ -42,7 +42,7 @@ SENSOR_TYPES: dict[str, list] = {
         "kWh",
         "mdi:chart-bell-curve-cumulative",
         SensorDeviceClass.ENERGY,
-        SensorStateClass.TOTAL_INCREASING,
+        None,
     ],
     "energytotal": [
         "Energy Total",
@@ -307,23 +307,40 @@ class TrannergySensor(CoordinatorEntity[TrannergyDataUpdateCoordinator], SensorE
             Current value of the sensor.
         """
         if self.coordinator.data is None:
-            return 0.0 if self._sensor_key != "status" else "Offline"
+            if self._sensor_key == "status":
+                return "Offline"
+            # Return None for other sensors when no data available
+            return None
 
         value = self.coordinator.data.get(self._sensor_key)
 
-        # Handle None/missing values
+        # Handle status sensor
+        if self._sensor_key == "status":
+            return str(value) if value else "Offline"
+
+        # Handle inverter serial
+        if self._sensor_key == "invertersn":
+            return str(value) if value else ""
+
+        # For TOTAL_INCREASING sensors, NEVER return 0 - return None instead
+        # This prevents corrupting long-term statistics
+        if self._attr_state_class == SensorStateClass.TOTAL_INCREASING:
+            if value is None or value == 0.0:
+                return None
+            try:
+                float_val = float(value)
+                return float_val if float_val > 0 else None
+            except (ValueError, TypeError):
+                return None
+
+        # For other sensors when offline, return None to make them unavailable
+        if not self.coordinator.inverter_online:
+            return None
+
+        # For numeric values when online, ensure we return a float
         if value is None:
-            if self._sensor_key == "status":
-                return "Offline"
-            if self._sensor_key == "invertersn":
-                return ""
             return 0.0
 
-        # Convert to proper type
-        if self._sensor_key in ("status", "invertersn"):
-            return str(value)
-
-        # For numeric values, ensure we return a float
         try:
             return float(value)
         except (ValueError, TypeError):
@@ -334,7 +351,25 @@ class TrannergySensor(CoordinatorEntity[TrannergyDataUpdateCoordinator], SensorE
         """Return True if entity is available.
 
         Returns:
-            True if the coordinator has data.
+            True if the coordinator has data and sensor should be available.
         """
-        return self.coordinator.last_update_success
+        if not self.coordinator.last_update_success:
+            return False
+
+        # Status sensor is always available when coordinator is working
+        if self._sensor_key == "status":
+            return True
+
+        # TOTAL_INCREASING sensors are only available if they have a valid non-zero value
+        if self._attr_state_class == SensorStateClass.TOTAL_INCREASING:
+            value = self.coordinator.data.get(self._sensor_key) if self.coordinator.data else None
+            if value is None or value == 0.0:
+                return False
+            try:
+                return float(value) > 0
+            except (ValueError, TypeError):
+                return False
+
+        # Other sensors are only available when the inverter is online
+        return self.coordinator.inverter_online
 

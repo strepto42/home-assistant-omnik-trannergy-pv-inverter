@@ -57,7 +57,11 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         api=api,
         name=name,
         update_interval=scan_interval,
+        entry_id=entry.entry_id,
     )
+
+    # Load stored data (for preserved values after restart)
+    await coordinator.async_load_stored_data()
 
     # Fetch initial data
     await coordinator.async_config_entry_first_refresh()
