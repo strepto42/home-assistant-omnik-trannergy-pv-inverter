@@ -27,15 +27,16 @@ from .coordinator import TrannergyDataUpdateCoordinator
 
 _LOGGER = logging.getLogger(__name__)
 
-# Sensor definitions: key -> [name, unit, icon, device_class, state_class]
+# Sensor definitions: key -> [name, unit, icon, device_class, state_class, precision]
 SENSOR_TYPES: dict[str, list] = {
-    "status": ["Status", None, "mdi:weather-sunny", None, None],
+    "status": ["Status", None, "mdi:weather-sunny", None, None, None],
     "actualpower": [
         "Actual Power",
         "W",
         "mdi:solar-power",
         SensorDeviceClass.POWER,
         SensorStateClass.MEASUREMENT,
+        None,
     ],
     "energytoday": [
         "Energy Today",
@@ -43,6 +44,7 @@ SENSOR_TYPES: dict[str, list] = {
         "mdi:chart-bell-curve-cumulative",
         SensorDeviceClass.ENERGY,
         None,
+        2,
     ],
     "energytotal": [
         "Energy Total",
@@ -50,6 +52,7 @@ SENSOR_TYPES: dict[str, list] = {
         "mdi:meter-electric-outline",
         SensorDeviceClass.ENERGY,
         SensorStateClass.TOTAL_INCREASING,
+        2,
     ],
     "hourstotal": [
         "Hours Total",
@@ -57,11 +60,13 @@ SENSOR_TYPES: dict[str, list] = {
         "mdi:timer-outline",
         SensorDeviceClass.DURATION,
         SensorStateClass.TOTAL_INCREASING,
+        None,
     ],
     "invertersn": [
         "Inverter Serial Number",
         None,
         "mdi:information-outline",
+        None,
         None,
         None,
     ],
@@ -71,6 +76,7 @@ SENSOR_TYPES: dict[str, list] = {
         "mdi:thermometer",
         SensorDeviceClass.TEMPERATURE,
         SensorStateClass.MEASUREMENT,
+        None,
     ],
     "dcinputvoltage1": [
         "DC Input Voltage 1",
@@ -78,6 +84,7 @@ SENSOR_TYPES: dict[str, list] = {
         "mdi:flash-outline",
         SensorDeviceClass.VOLTAGE,
         SensorStateClass.MEASUREMENT,
+        None,
     ],
     "dcinputcurrent1": [
         "DC Input Current 1",
@@ -85,6 +92,7 @@ SENSOR_TYPES: dict[str, list] = {
         "mdi:current-dc",
         SensorDeviceClass.CURRENT,
         SensorStateClass.MEASUREMENT,
+        None,
     ],
     "dcinputvoltage2": [
         "DC Input Voltage 2",
@@ -92,6 +100,7 @@ SENSOR_TYPES: dict[str, list] = {
         "mdi:flash-outline",
         SensorDeviceClass.VOLTAGE,
         SensorStateClass.MEASUREMENT,
+        None,
     ],
     "dcinputcurrent2": [
         "DC Input Current 2",
@@ -99,6 +108,7 @@ SENSOR_TYPES: dict[str, list] = {
         "mdi:current-dc",
         SensorDeviceClass.CURRENT,
         SensorStateClass.MEASUREMENT,
+        None,
     ],
     "dcinputvoltage3": [
         "DC Input Voltage 3",
@@ -106,6 +116,7 @@ SENSOR_TYPES: dict[str, list] = {
         "mdi:flash-outline",
         SensorDeviceClass.VOLTAGE,
         SensorStateClass.MEASUREMENT,
+        None,
     ],
     "dcinputcurrent3": [
         "DC Input Current 3",
@@ -113,6 +124,7 @@ SENSOR_TYPES: dict[str, list] = {
         "mdi:current-dc",
         SensorDeviceClass.CURRENT,
         SensorStateClass.MEASUREMENT,
+        None,
     ],
     "acoutputvoltage1": [
         "AC Output Voltage 1",
@@ -120,6 +132,7 @@ SENSOR_TYPES: dict[str, list] = {
         "mdi:flash-outline",
         SensorDeviceClass.VOLTAGE,
         SensorStateClass.MEASUREMENT,
+        None,
     ],
     "acoutputcurrent1": [
         "AC Output Current 1",
@@ -127,6 +140,7 @@ SENSOR_TYPES: dict[str, list] = {
         "mdi:current-ac",
         SensorDeviceClass.CURRENT,
         SensorStateClass.MEASUREMENT,
+        None,
     ],
     "acoutputfrequency1": [
         "AC Output Frequency 1",
@@ -134,6 +148,7 @@ SENSOR_TYPES: dict[str, list] = {
         "mdi:sine-wave",
         SensorDeviceClass.FREQUENCY,
         SensorStateClass.MEASUREMENT,
+        None,
     ],
     "acoutputpower1": [
         "AC Output Power 1",
@@ -141,6 +156,7 @@ SENSOR_TYPES: dict[str, list] = {
         "mdi:solar-power",
         SensorDeviceClass.POWER,
         SensorStateClass.MEASUREMENT,
+        None,
     ],
     "acoutputvoltage2": [
         "AC Output Voltage 2",
@@ -148,6 +164,7 @@ SENSOR_TYPES: dict[str, list] = {
         "mdi:flash-outline",
         SensorDeviceClass.VOLTAGE,
         SensorStateClass.MEASUREMENT,
+        None,
     ],
     "acoutputcurrent2": [
         "AC Output Current 2",
@@ -155,6 +172,7 @@ SENSOR_TYPES: dict[str, list] = {
         "mdi:current-ac",
         SensorDeviceClass.CURRENT,
         SensorStateClass.MEASUREMENT,
+        None,
     ],
     "acoutputfrequency2": [
         "AC Output Frequency 2",
@@ -162,6 +180,7 @@ SENSOR_TYPES: dict[str, list] = {
         "mdi:sine-wave",
         SensorDeviceClass.FREQUENCY,
         SensorStateClass.MEASUREMENT,
+        None,
     ],
     "acoutputpower2": [
         "AC Output Power 2",
@@ -169,6 +188,7 @@ SENSOR_TYPES: dict[str, list] = {
         "mdi:solar-power",
         SensorDeviceClass.POWER,
         SensorStateClass.MEASUREMENT,
+        None,
     ],
     "acoutputvoltage3": [
         "AC Output Voltage 3",
@@ -176,6 +196,7 @@ SENSOR_TYPES: dict[str, list] = {
         "mdi:flash-outline",
         SensorDeviceClass.VOLTAGE,
         SensorStateClass.MEASUREMENT,
+        None,
     ],
     "acoutputcurrent3": [
         "AC Output Current 3",
@@ -183,6 +204,7 @@ SENSOR_TYPES: dict[str, list] = {
         "mdi:current-ac",
         SensorDeviceClass.CURRENT,
         SensorStateClass.MEASUREMENT,
+        None,
     ],
     "acoutputfrequency3": [
         "AC Output Frequency 3",
@@ -190,6 +212,7 @@ SENSOR_TYPES: dict[str, list] = {
         "mdi:sine-wave",
         SensorDeviceClass.FREQUENCY,
         SensorStateClass.MEASUREMENT,
+        None,
     ],
     "acoutputpower3": [
         "AC Output Power 3",
@@ -197,6 +220,7 @@ SENSOR_TYPES: dict[str, list] = {
         "mdi:solar-power",
         SensorDeviceClass.POWER,
         SensorStateClass.MEASUREMENT,
+        None,
     ],
 }
 
@@ -238,6 +262,7 @@ async def async_setup_entry(
                     sensor_icon=sensor_info[2],
                     sensor_device_class=sensor_info[3],
                     sensor_state_class=sensor_info[4],
+                    sensor_precision=sensor_info[5],
                     inverter_name=name,
                     inverter_serial=serial,
                 )
@@ -261,6 +286,7 @@ class TrannergySensor(CoordinatorEntity[TrannergyDataUpdateCoordinator], SensorE
         sensor_icon: str,
         sensor_device_class: SensorDeviceClass | None,
         sensor_state_class: SensorStateClass | None,
+        sensor_precision: int | None,
         inverter_name: str,
         inverter_serial: int,
     ) -> None:
@@ -275,6 +301,7 @@ class TrannergySensor(CoordinatorEntity[TrannergyDataUpdateCoordinator], SensorE
             sensor_icon: Icon for the sensor.
             sensor_device_class: Device class of the sensor.
             sensor_state_class: State class of the sensor.
+            sensor_precision: Number of decimal places for display.
             inverter_name: Name of the inverter.
             inverter_serial: Serial number of the inverter.
         """
@@ -290,6 +317,8 @@ class TrannergySensor(CoordinatorEntity[TrannergyDataUpdateCoordinator], SensorE
         self._attr_icon = sensor_icon
         self._attr_device_class = sensor_device_class
         self._attr_state_class = sensor_state_class
+        if sensor_precision is not None:
+            self._attr_suggested_display_precision = sensor_precision
 
         # Device info
         self._attr_device_info = DeviceInfo(
