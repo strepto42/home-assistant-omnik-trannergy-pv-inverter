@@ -52,7 +52,7 @@ SENSOR_TYPES: dict[str, list] = {
         "mdi:meter-electric-outline",
         SensorDeviceClass.ENERGY,
         SensorStateClass.TOTAL_INCREASING,
-        2,
+        1,
     ],
     "hourstotal": [
         "Hours Total",

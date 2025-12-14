@@ -161,7 +161,7 @@ class TrannergyInverterApi:
         # Power and energy
         data["actualpower"] = self._safe_float(self._get_short(59, 1), 0.0)
         data["energytoday"] = self._safe_float(self._get_short(69, 100), 0.0)
-        data["energytotal"] = self._safe_float(self._get_long(71, 100), 0.0)
+        data["energytotal"] = self._safe_float(self._get_long(71), 0.0)
         data["hourstotal"] = self._safe_float(self._get_long(75, 1), 0.0)
 
         # Inverter serial
