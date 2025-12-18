@@ -127,15 +127,12 @@ class TrannergyConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         config_entry: config_entries.ConfigEntry,
     ) -> TrannergyOptionsFlowHandler:
         """Get the options flow for this handler."""
-        return TrannergyOptionsFlowHandler(config_entry)
+        return TrannergyOptionsFlowHandler()
 
 
 class TrannergyOptionsFlowHandler(config_entries.OptionsFlow):
     """Handle Trannergy options."""
 
-    def __init__(self, config_entry: config_entries.ConfigEntry) -> None:
-        """Initialize options flow."""
-        self.config_entry = config_entry
 
     async def async_step_init(
         self, user_input: dict[str, Any] | None = None
